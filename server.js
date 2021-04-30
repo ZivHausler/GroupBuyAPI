@@ -6,10 +6,8 @@ const knex = require('knex');
 const db = knex({
     client: 'pg',
     connection: {
-        host: '127.0.0.1',
-        user: 'postgres',
-        password: '3121',
-        database: 'groupbuy'
+        connectionString: process.env.DATABASE_URL,
+        ssl: true,
     }
 });
 
@@ -40,11 +38,12 @@ app.get('/users', (req, res) => {
 // })
 
 app.post('/register', (req, res) => {
-    const { email, name, password, premission } = req.body;
-    if (email && password && name &&premission) {
+    const { email, firstName, lastName } = req.body;
+    console.log(email, firstName, lastName)
+    if (email && firstName && lastName) {
        db('users').returning('*')
-       .insert({email, name, password, premission})
-       .then(user =>{res.json(user[0]);})
+       .insert({email, firstName, lastName, premission: 0, entries: 0, joined: new Date()})
+       .then(user =>{res.json(users[0]);})
        .catch(err => res.status(400).json('Unable to register'))
     }
     else {
@@ -56,8 +55,9 @@ app.listen(process.env.PORT || 3000, () => {
     console.log(`app is running on port ${process.env.PORT}`)
 })
 
-app.use(function (req, res, next){
-    res.header("Access-Control-Allow-Origin","*");
-    res.header("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+// CORS:
+// app.use(function (req, res, next){
+//     res.header("Access-Control-Allow-Origin","*");
+//     res.header("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+// });
