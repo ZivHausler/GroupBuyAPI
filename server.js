@@ -38,6 +38,7 @@ app.get('/users', (req, res) => {
 // })
 
 app.post('/register', (req, res) => {
+    console.log("hey");
     const { email, firstName, lastName } = req.body;
     console.log(email, firstName, lastName)
     if (email && firstName && lastName) {
