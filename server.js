@@ -44,6 +44,7 @@ app.post('/register', (req, res) => {
     if (email && firstName && lastName) {
        db('users').returning('*')
        .insert({firstName, lastName, email, joined: new Date()})
+       .catch(err => res.status(401).json('insert error'))
        .then(user =>{res.json(users[0]);})
        .catch(err => res.status(400).json('Unable to register'))
     }
