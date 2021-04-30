@@ -43,7 +43,7 @@ app.post('/register', (req, res) => {
     console.log(email, firstName, lastName)
     if (email && firstName && lastName) {
        db('users').returning('*')
-       .insert({email, firstName, lastName, premission: 0, entries: 0, joined: new Date()})
+       .insert({firstName, lastName, email, joined: new Date()})
        .then(user =>{res.json(users[0]);})
        .catch(err => res.status(400).json('Unable to register'))
     }
