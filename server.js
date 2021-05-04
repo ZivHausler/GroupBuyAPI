@@ -40,6 +40,7 @@ app.get('/users', (req, res) => {
 
 app.post('/register', (req, res) => {
     const { Email, FirstName, LastName } = req.body;
+    console.log(Email,FirstName,LastName);
     if (Email && FirstName && LastName) {
        db('users').returning('*')
        .insert(
