@@ -44,7 +44,7 @@ app.post('/register', async (req, res) => {
     console.log(email, firstName, lastName)
     if (email && firstName && lastName) {
         db('users')
-            .returning('*')
+            // .returning('*')
             .insert({
                 firstName: firstName,
                 lastName: lastName,
@@ -52,8 +52,8 @@ app.post('/register', async (req, res) => {
                 joined: new Date()
             })
             .catch(err => res.status(400).json('insert error'))
-            .then(user => { res.json(users[0]); })
-            .catch(err => res.status(400).json('returning error'))
+            // .then(user => { res.json(users[0]); })
+            // .catch(err => res.status(400).json('returning error'))
     }
     else {
         res.status(400).json('Error creating new user');
