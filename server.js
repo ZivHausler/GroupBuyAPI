@@ -1,8 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const knex = require('knex');
 var cors = require('cors')
+const knex = require('knex');
 
 const db = knex({
     client: 'pg',
@@ -39,23 +39,17 @@ app.get('/users', (req, res) => {
 // })
 
 app.post('/register', (req, res) => {
-    const { Email, FirstName, LastName } = req.body;
-    console.log(Email,FirstName,LastName);
-    if (Email && FirstName && LastName) {
+    const { email, firstName, lastName } = req.body;
+    console.log(email, firstName, lastName)
+    if (email && firstName && lastName) {
        db('users').returning('*')
-       .insert(
-           {
-            email: Email,
-            firstName: FirstName,
-            lastName: LastName,
-            joined: new Date()}
-            )
+       .insert({firstName, lastName, email, joined: new Date()})
        .catch(err => res.status(401).json('insert error'))
        .then(user =>{res.json(users[0]);})
        .catch(err => res.status(400).json('Unable to register'))
     }
     else {
-        res.status(400).json('Error creating new user\nEmail: ' + Email + '\nFirstName: '+ FirstName + '\nLastName: ' + LastName);
+        res.status(400).json('Error creating new user');
     }
 })
 
