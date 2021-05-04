@@ -39,7 +39,7 @@ app.get('/', (req, res) => {
 //     res.status(400).json('No such email in database');
 // })
 
-app.post('/register', (req, res) => {
+app.post('/register', async (req, res) => {
     const { email, firstName, lastName } = req.body;
     console.log(email, firstName, lastName)
     if (email && firstName && lastName) {
