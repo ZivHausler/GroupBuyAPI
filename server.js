@@ -51,9 +51,9 @@ app.post('/register', async (req, res) => {
                 email: email,
                 joined: new Date()
             })
-            .catch(err => res.status(401).json('insert error'))
-            .then(user => { res.json(users[0]); })
-            .catch(err => res.status(400).json('Unable to register'))
+            // .then(user => { res.json(users[0]); })
+            .then(console.log("FUCKME"))
+        .catch(err => res.status(400).json('Unable to register'))
     }
     else {
         res.status(400).json('Error creating new user');
