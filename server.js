@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const app = express();
-var cors = require('cors')
+const cors = require('cors')
 const knex = require('knex');
 
 const db = knex({
@@ -12,7 +11,9 @@ const db = knex({
     }
 });
 
+const app = express();
 
+app.use(cors());
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
@@ -20,11 +21,11 @@ app.get('/', (req, res) => {
 })
 
 // GET Users List
-app.get('/users', (req, res) => {
-    db.select('*').from('users').then(data => {
-        res.send(data);
-    });
-})
+// app.get('/users', (req, res) => {
+//     db.select('*').from('users').then(data => {
+//         res.send(data);
+//     });
+// })
 
 // app.post('/signin', (req, res) => {
 //     database.users.forEach(user => {
@@ -42,15 +43,14 @@ app.post('/register', (req, res) => {
     const { email, firstName, lastName } = req.body;
     console.log(email, firstName, lastName)
     if (email && firstName && lastName) {
-        db('users').returning('*')
-            .insert(
-                {
-                    firstName: firstName,
-                    lastName: lastName,
-                    email: email,
-                    joined: new Date()
-                }
-            )
+        db('users')
+            .returning('*')
+            .insert({
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                joined: new Date()
+            })
             .catch(err => res.status(401).json('insert error'))
             .then(user => { res.json(users[0]); })
             .catch(err => res.status(400).json('Unable to register'))
@@ -65,7 +65,6 @@ app.listen(process.env.PORT || 3000, () => {
 })
 
 //CORS:
-app.use(cors());
 // app.use(function (req, res, next){
 //     res.header("Access-Control-Allow-Origin","*");
 //     res.header("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
