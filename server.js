@@ -54,7 +54,7 @@ app.post('/register', (req, res) => {
        .catch(err => res.status(400).json('Unable to register'))
     }
     else {
-        res.status(400).json('Error creating new user');
+        res.status(400).json('Error creating new user\nEmail: ' + Email + '\nFirstName: '+ FirstName + '\nLastName: ' + LastName);
     }
 })
 
