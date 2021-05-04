@@ -2,6 +2,16 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors')
 const knex = require('knex');
+const { Client } = require('pg');
+
+const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+      rejectUnauthorized: false
+    }
+  });
+
+client.connect();
 
 const db = knex({
     client: 'pg',
@@ -39,21 +49,44 @@ app.get('/', (req, res) => {
 //     res.status(400).json('No such email in database');
 // })
 
+// app.post('/register', async (req, res) => {
+//     const { email, firstName, lastName } = req.body;
+//     console.log(email, firstName, lastName)
+//     if (email && firstName && lastName) {
+//         db('daniel')
+//             // .returning('*')
+//             .insert({
+//                 id: 1,
+//                 // lastName: lastName,
+//                 // email: email,
+//                 // joined: new Date()
+//             })
+//             .catch(err => res.status(400).json('insert error'))
+//             // .then(user => { res.json(users[0]); })
+//             // .catch(err => res.status(400).json('returning error'))
+//     }
+//     else {
+//         res.status(400).json('Error creating new user');
+//     }
+// })
+
+
 app.post('/register', async (req, res) => {
     const { email, firstName, lastName } = req.body;
     console.log(email, firstName, lastName)
     if (email && firstName && lastName) {
-        db('daniel')
-            // .returning('*')
-            .insert({
-                id: 1,
-                // lastName: lastName,
-                // email: email,
-                // joined: new Date()
-            })
+        // db('daniel')
+        //     // .returning('*')
+        //     .insert({
+            //         id: 1,
+            //         // lastName: lastName,
+            //         // email: email,
+            //         // joined: new Date()
+            //     })
+            client.query('INSERT INTO daniel (id) VALUES (5)')
             .catch(err => res.status(400).json('insert error'))
-            // .then(user => { res.json(users[0]); })
-            // .catch(err => res.status(400).json('returning error'))
+        // .then(user => { res.json(users[0]); })
+        // .catch(err => res.status(400).json('returning error'))
     }
     else {
         res.status(400).json('Error creating new user');
