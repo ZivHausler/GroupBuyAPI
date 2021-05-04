@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const knex = require('knex');
+var cors = require('cors')
 
 const db = knex({
     client: 'pg',
@@ -37,21 +38,20 @@ app.get('/users', (req, res) => {
 //     res.status(400).json('No such email in database');
 // })
 
-// app.post('/register', (req, res) => {
-//     console.log("hey");
-//     const { email, firstName, lastName } = req.body;
-//     console.log(email, firstName, lastName)
-//     if (email && firstName && lastName) {
-//        db('users').returning('*')
-//        .insert({firstName, lastName, email, joined: new Date()})
-//        .catch(err => res.status(401).json('insert error'))
-//        .then(user =>{res.json(users[0]);})
-//        .catch(err => res.status(400).json('Unable to register'))
-//     }
-//     else {
-//         res.status(400).json('Error creating new user');
-//     }
-// })
+app.post('/register', (req, res) => {
+    const { email, firstName, lastName } = req.body;
+    console.log(email, firstName, lastName)
+    if (email && firstName && lastName) {
+       db('users').returning('*')
+       .insert({firstName, lastName, email, joined: new Date()})
+       .catch(err => res.status(401).json('insert error'))
+       .then(user =>{res.json(users[0]);})
+       .catch(err => res.status(400).json('Unable to register'))
+    }
+    else {
+        res.status(400).json('Error creating new user');
+    }
+})
 
 app.listen(process.env.PORT || 3000, () => {
     console.log(`app is running on port ${process.env.PORT}`)
