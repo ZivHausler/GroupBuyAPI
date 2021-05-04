@@ -43,13 +43,13 @@ app.post('/register', async (req, res) => {
     const { email, firstName, lastName } = req.body;
     console.log(email, firstName, lastName)
     if (email && firstName && lastName) {
-        db('users')
+        db('daniel')
             // .returning('*')
             .insert({
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                joined: new Date()
+                id: 1,
+                // lastName: lastName,
+                // email: email,
+                // joined: new Date()
             })
             .catch(err => res.status(400).json('insert error'))
             // .then(user => { res.json(users[0]); })
