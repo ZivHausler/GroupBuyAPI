@@ -39,11 +39,16 @@ app.get('/users', (req, res) => {
 // })
 
 app.post('/register', (req, res) => {
-    const { email, firstName, lastName } = req.body;
-    console.log(email, firstName, lastName)
-    if (email && firstName && lastName) {
+    const { Email, FirstName, LastName } = req.body;
+    if (Email && FirstName && LastName) {
        db('users').returning('*')
-       .insert({firstName, lastName, email, joined: new Date()})
+       .insert(
+           {
+            email: Email,
+            firstName: FirstName,
+            lastName: LastName,
+            joined: new Date()}
+            )
        .catch(err => res.status(401).json('insert error'))
        .then(user =>{res.json(users[0]);})
        .catch(err => res.status(400).json('Unable to register'))
